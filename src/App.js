@@ -1,26 +1,28 @@
-
-import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
-import { setUser } from "./redux/store/user/user.action"
-import { userSelector } from "./redux/store/user/user-selector"
+import { useDispatch } from "react-redux"
+import { setUser } from "./redux/store/user/user-action"
+import { useSelector } from "react-redux"
+import { userSelect } from "./redux/store/user/user-selector"
+
 
 const App = ()=> {
+  const dispatch = useDispatch()
   useEffect(()=> {
-    const getDataUser = async()=> {
+    const getData = async() => {
       const request = await fetch('https://jsonplaceholder.typicode.com/users')
       const response = await request.json()
-      dispatch(setUser(response))
+       dispatch(setUser(response))
     }
-    getDataUser()
-  }, [])
-
-  const dispatch = useDispatch()
-  const data = useSelector(userSelector)
+    getData()
+  },[])
+  const data = useSelector(userSelect)
+  console.log(data)
   return (
     <div>
-      {data.map((data)=> {
-        return <h1>{data.name}</h1>
-      })}
+    {data.map((data)=> {
+      return <h2>{data.id} {data.name} | {data.username} </h2>
+    })}
+
     </div>
   )
 }
